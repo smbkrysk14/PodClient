@@ -23,19 +23,21 @@ xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.
     </i:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0" Grid.RowSpan="2" LastChildFill="False">
-            <Button Content="Search" DockPanel.Dock="Top" Margin="5,10,5,0" />
-            <Button Content="My Podcast" DockPanel.Dock="Top" Margin="5,10,5,0"/>
-            <Button Content="Now Playing" DockPanel.Dock="Top" Margin="5,10,5,0"/>
+        <Border BorderThickness="0,0,3,0" BorderBrush="LightGray"  Grid.Column="0" Grid.RowSpan="2">
+        <DockPanel Grid.Column="0" Grid.RowSpan="2" LastChildFill="False" >
+            <Button Content="Search" DockPanel.Dock="Top" Margin="5,10,5,0" Style="{StaticResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left"/>
+            <Button Content="My Podcast" DockPanel.Dock="Top" Margin="5,10,5,0" Style="{StaticResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left"/>
+            <Button Content="Now Playing" DockPanel.Dock="Top" Margin="5,10,5,0" Style="{StaticResource MaterialDesignFlatButton}" HorizontalContentAlignment="Left"/>
         </DockPanel>
-        <DockPanel Grid.Column="1" Grid.RowSpan="2" LastChildFill="False">
+        </Border>
+        <DockPanel Grid.Column="1" Grid.RowSpan="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Frame NavigationUIVisibility="Hidden" Name="MainFrame" Content="{Binding MainFrame}" />
             </ScrollViewer>
@@ -44,30 +46,6 @@ xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.
             <StackPanel Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Width}">
                 <Frame NavigationUIVisibility="Hidden" Name="AudioControlPage" Content="{Binding AudioControlPage}" />
             </StackPanel>
-            <!--<wpf:ColorZone Mode="Light">
-                <StackPanel Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Width}">
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="4" Style="{StaticResource MaterialDesignFlatButton}">
-                            <wpf:PackIcon Kind="StepBackward" />
-                        </Button>
-                        <Button Grid.Column="5" Style="{StaticResource MaterialDesignFlatButton}">
-                            <wpf:PackIcon Kind="Play" />
-                        </Button>
-                        <Button Grid.Column="6" Style="{StaticResource MaterialDesignFlatButton}">
-                            <wpf:PackIcon Kind="StepForward" />
-                        </Button>
-                    </Grid>
-                </StackPanel>
-            </wpf:ColorZone>-->
         </DockPanel>
     </Grid>
 
