@@ -1,0 +1,101 @@
+﻿<Page x:Class="PodClient.View.ChannelPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PodClient.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="Channel"
+xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" >
+
+    <Page.Resources>
+        <Style TargetType="wpf:PackIcon">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ItemsControl Grid.Row="0" Padding="10">
+            <Button HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding BackCommand}">
+                <wpf:PackIcon Kind="KeyboardBackspace"/>
+            </Button>
+        </ItemsControl>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Channel}" Padding="10">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="250"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0"  Height="250" Width="250" Grid.RowSpan="3">
+                            <Image Source="{Binding thumbnail}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock  Text="{Binding title}" FontSize="30" Grid.Column="1" Grid.Row="0" Margin="5"/>
+                            <TextBlock Text="{Binding author}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Margin="5"/>
+                            <TextBlock Text="{Binding description}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="2" Margin="5"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Tracks}" Grid.Row="2" Padding="10" AlternationCount="2"  >
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Grid.Background" Value="WhiteSmoke" TargetName="Tracks"/>
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Grid.Background" Value="White" TargetName="Tracks"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                    <Grid Name="Tracks">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.TrackSelectedCommand}" CommandParameter="{Binding enclosureUrl}"/>
+                                <!--<ei:CallMethodAction MethodName="TrackSelected" 
+                                    TargetObject="{Binding Path=DataContext,
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}, Mode=OneWay}"/>-->
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="70"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding title}" FontWeight="Bold"  Grid.Row="0" Grid.ColumnSpan="3"/>
+                        <TextBlock Text="{Binding description}" TextWrapping="Wrap" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding pubDate}" VerticalAlignment="Center" Grid.RowSpan="2" Grid.Column="1"/>
+                        <TextBlock Text="{Binding duration}" VerticalAlignment="Center" Grid.RowSpan="2" Grid.Column="2"/>
+                    </Grid>
+
+                </DataTemplate>
+                    
+                </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Page>

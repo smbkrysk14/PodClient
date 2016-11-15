@@ -1,0 +1,40 @@
+﻿<Page x:Class="PodClient.View.AudioControlPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PodClient.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="AudioControlPage"
+xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+      xmlns:vm="clr-namespace:PodClient.ViewModel">
+    <Grid>
+        <wpf:ColorZone Mode="Light">
+            <StackPanel Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Width}">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="4" Style="{StaticResource MaterialDesignFlatButton}" >
+                        <!--<wpf:PackIcon Kind="StepBackward" />-->
+                        <wpf:PackIcon Kind="{Binding PreviewButton}" />
+                    </Button>
+                    <Button Grid.Column="5" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding PlayStopCommand}">
+                        <wpf:PackIcon Kind="{Binding PlayStopButton}" />
+                    </Button>
+                    <Button Grid.Column="6" Style="{StaticResource MaterialDesignFlatButton}" >
+                        <!--<wpf:PackIcon Kind="StepForward" />-->
+                        <wpf:PackIcon Kind="{Binding NextButton}" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </wpf:ColorZone>
+    </Grid>
+</Page>
