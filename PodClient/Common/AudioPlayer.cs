@@ -188,7 +188,6 @@ namespace PodClient.Common
 
         public void Play(string url)
         {
-            url = "http://cache.rebuild.fm/podcast-ep162a.mp3";
             if (_waveOut == null)
             {
                 new Thread(delegate (object o)
@@ -215,7 +214,7 @@ namespace PodClient.Common
 
 
             // Pre-buffering some data to allow NAudio to start playing
-            while (ms.Length < 65536 * 10)
+            while (ms.Length < 65536 * 50)
                 Thread.Sleep(1000);
 
 
