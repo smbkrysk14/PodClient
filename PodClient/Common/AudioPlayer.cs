@@ -45,7 +45,7 @@ namespace PodClient.Common
 
 
             // Pre-buffering some data to allow NAudio to start playing
-            while (ms.Length < 65536 * 50)
+            while (ms.Length < 65536 * 30)
                 Thread.Sleep(1000);
 
 
