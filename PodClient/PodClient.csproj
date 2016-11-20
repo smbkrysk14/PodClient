@@ -95,6 +95,7 @@
     <Compile Include="ViewModel\AudioControlViewModel.cs" />
     <Compile Include="ViewModel\ChannelPageViewModel.cs" />
     <Compile Include="ViewModel\MyPodcastViewModel.cs" />
+    <Compile Include="ViewModel\NowPlayingViewModel.cs" />
     <Compile Include="ViewModel\SearchResultViewModel.cs" />
     <Compile Include="View\AudioControlPage.xaml.cs">
       <DependentUpon>AudioControlPage.xaml</DependentUpon>
@@ -105,6 +106,9 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MyPodcast.xaml.cs">
       <DependentUpon>MyPodcast.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NowPlayingPage.xaml.cs">
+      <DependentUpon>NowPlayingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SearchResultPage.xaml.cs">
       <DependentUpon>SearchResultPage.xaml</DependentUpon>
@@ -130,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MyPodcast.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NowPlayingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
