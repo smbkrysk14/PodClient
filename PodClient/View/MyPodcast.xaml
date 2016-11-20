@@ -9,9 +9,6 @@
 xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="MyPodcast">
-    <!--<Page.DataContext>
-        <vm:MyPodcastViewModel/>
-    </Page.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
