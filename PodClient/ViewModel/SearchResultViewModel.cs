@@ -1,98 +1,53 @@
 ﻿using HtmlAgilityPack;
-using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using PodClient.Common;
 using PodClient.Model;
 using PodClient.View;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace PodClient.ViewModel
 {
-    class MyPodcastViewModel: ViewModelBase
+    public class SearchResultViewModel:ViewModelBase
     {
         private NavigationService _navi;
         private NavigationService _navi2;
 
-        public MyPodcastViewModel(NavigationService navi, NavigationService navi2)
+        public SearchResultViewModel(NavigationService navi, NavigationService navi2, string keyWord)
         {
             this._navi = navi;
             this._navi2 = navi2;
-            init();
+            init(keyWord);
         }
 
-        public MyPodcastViewModel()
+        private void init(string keyWord)
         {
-            init();
-        }
-        
-        private void init()
-        {
-            CallWebApi();
+            CallWebApi(keyWord);
         }
 
-        private async void CallWebApi()
+        private async void CallWebApi(string keyWord)
         {
-            //var client = new HttpClient();
-            //var uri = "https://itunes.apple.com/search?term=podcast&media=podcast&entity=podcast&country=jp&lang=ja_jp";
-            //var result = await client.GetStringAsync(uri);
+            var client = new HttpClient();
+            var uri1 = "https://itunes.apple.com/search?term=";
+            var uri2 = "&media=podcast&entity=podcast&country=jp&lang=ja_jp";
+            var uri = uri1 + keyWord + uri2;
+            var result = await client.GetStringAsync(uri);
 
-            //string json = JsonConvert.SerializeObject(result);
+            string json = JsonConvert.SerializeObject(result);
 
-            //Content podcast = JsonConvert.DeserializeObject<Content>(result);
+            Content podcast = JsonConvert.DeserializeObject<Content>(result);
 
-            //Contents = podcast.results;
-
-            Contents = MyList.myList;
-        }
-
-        private bool CanPlayStopExecute()
-        {
-            return true;
-        }
-
-        private void selectNameExecute2()
-        {
-
-        }
-
-        private DelegateCommand _selectNameCommand2;
-
-        public DelegateCommand SelectNameCommand2
-
-        {
-
-            get
-
-            {
-
-                if (_selectNameCommand2 == null)
-
-                    _selectNameCommand2 = new DelegateCommand(selectNameExecute2, CanPlayStopExecute);
-
-                return _selectNameCommand2;
-
-            }
-
+            Contents = podcast.results;
         }
 
 
@@ -109,42 +64,6 @@ namespace PodClient.ViewModel
                 RaisePropertyChanged("Contents");
             }
         }
-
-        private Content.Result _selectedSample;
-
-        public Content.Result SelectedSample
-
-        {
-
-            get { return _selectedSample; }
-
-            set
-
-            {
-
-                _selectedSample = value;
-
-                base.RaisePropertyChanged("SelectedSample");
-
-            }
-
-        }
-
-        private string _id;
-        public string Id
-        {
-            set
-            {
-                this._id = value;
-            }
-            get
-            {
-                return this._id;
-                base.RaisePropertyChanged("Id");
-            }
-        }
-
-
 
         private void HandleNumberButtonPressed(int collectionId)
         {
@@ -175,7 +94,7 @@ namespace PodClient.ViewModel
                 //ch.title = spxChannel.Element("title").Value;
                 ch.title = result[0].trackName;
                 //ch.description = spxChannel.Element("description").Value;
-                
+
 
                 //ch.thumbnail = spxChannel.Element(media + "thumbnail").Attribute("url").Value;
                 ch.thumbnail = result[0].artworkUrl600;
@@ -207,12 +126,12 @@ namespace PodClient.ViewModel
                     string innerTxt = html.DocumentNode.InnerText;
                     StringReader inTxtStb = new StringReader(html.DocumentNode.InnerText);
                     track.description = inTxtStb.ReadLine();
-                    
+
                     string pubDateStr = GetXmlValue(item, "pubDate", null);
                     CultureInfo cl = new CultureInfo("ja-JP");
                     DateTime pubDateDateTime = Convert.ToDateTime(pubDateStr, cl);
                     track.pubDate = pubDateDateTime.ToString("yyyy/MM/dd");
-                    
+
                     track.duration = GetXmlValue(item, "duration", itunes);
 
                     track.enclosureUrl = item.Element("enclosure").Attribute("url").Value;
@@ -222,7 +141,7 @@ namespace PodClient.ViewModel
                 }
 
                 this._navi.Navigate(new ChannelPage(_navi, _navi2, ch));
-         
+
 
 
             }
@@ -230,8 +149,16 @@ namespace PodClient.ViewModel
             {
                 MessageBox.Show("RSSが読み取れません");
             };
-          
+
         }
+
+        private void AddMyList(int collectionId)
+        {
+            List<Content.Result> result = this.Contents.Where(r => r.collectionId == collectionId).ToList();
+
+            MyList.myList.Add(result[0]);
+        }
+
 
         // attributeが指定できないのでできるようにする
         private string GetXmlValue(XElement item, string elementName, XNamespace ns)
@@ -254,16 +181,6 @@ namespace PodClient.ViewModel
             }
         }
 
-        private void GetFeed(string feedUrl)
-        {
-            using (XmlReader rdr = XmlReader.Create(feedUrl))
-            {
-                SyndicationFeed feed = SyndicationFeed.Load(rdr);
-
-                Console.WriteLine("title: " + feed.Title.Text);
-            }
-        }
-
         ICommand numberPressedCommand;
         public ICommand NumberPressedCommand
         {
@@ -272,6 +189,14 @@ namespace PodClient.ViewModel
                 return numberPressedCommand ?? (numberPressedCommand = new DelegateCommand<int>(HandleNumberButtonPressed));
             }
         }
-    }
 
+        private ICommand addMyListCommad;
+        public ICommand AddMyListCommand
+        {
+            get
+            {
+                return addMyListCommad ?? (addMyListCommad = new DelegateCommand<int>(AddMyList));
+            }
+        }
+    }
 }

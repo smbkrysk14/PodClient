@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace PodClient.Model
 {
-    class Content
+    public class Content
     {
         public int resultCount { get; set; }
         public List<Result> results { get; set; }

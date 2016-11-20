@@ -14,11 +14,11 @@ xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.
     </Page.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0">
-            
+            <TextBlock Grid.Row="4" Grid.Column="4" Margin="0 4 0 4" Style="{StaticResource MaterialDesignDisplay2TextBlock}">My Podcast</TextBlock>
         </WrapPanel>
 
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Contents}">

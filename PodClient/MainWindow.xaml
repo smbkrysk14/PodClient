@@ -6,61 +6,64 @@
         xmlns:local="clr-namespace:PodClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1000"
-xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+        xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         xmlns:v="clr-namespace:PodClient.View"
       xmlns:vm="clr-namespace:PodClient.ViewModel"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
-    <!--<Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding InitializeViewModelCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <wpf:ColorZone Mode="Dark">
+    <wpf:ColorZone Mode="Light">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <!--<Border BorderThickness="0,0,3,0" BorderBrush="LightGray"  Grid.Column="0" Grid.RowSpan="2" wpf:ShadowAssist.ShadowDepth="Depth5">-->
-            <wpf:ColorZone Mode="PrimaryDark" Grid.Column="0" Grid.RowSpan="2" DockPanel.Dock="Top" VerticalAlignment="Stretch" wpf:ShadowAssist.ShadowDepth="Depth2" >
-                <DockPanel Grid.Column="0" Grid.RowSpan="2" LastChildFill="False" >
-                    <Button Content="Search" 
-                                DockPanel.Dock="Top" 
+            <DockPanel Grid.Column="0" Grid.RowSpan="2" LastChildFill="False">
+                <TextBox x:Name="SearchWord"
+                             DockPanel.Dock="Top"
+                               Width="210"
+                               Margin="5,20,5,0"
+                               HorizontalAlignment="Stretch"
+                               wpf:HintAssist.Hint="Search Word"
+                               wpf:ShadowAssist.ShadowDepth="Depth2"
+                              Text="{Binding SearchWordTxt, Mode=TwoWay}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Gesture="Enter" 
+                                        Command="{Binding SearchCommand}"
+                                        CommandParameter="{Binding ElementName=SearchWord, Path=Text}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Content="My Podcast" 
+                             DockPanel.Dock="Top" 
                                 Margin="5,10,5,0" 
-                                Style="{StaticResource MaterialDesignRaisedAccentButton}" 
-                                HorizontalContentAlignment="Left" 
-                                wpf:ShadowAssist.ShadowDepth="Depth2"/>
-                    <Button Content="My Podcast" 
-                                DockPanel.Dock="Top" 
-                                Margin="5,10,5,0" 
-                                Style="{StaticResource MaterialDesignRaisedAccentButton}" 
+                                Style="{StaticResource MaterialDesignFlatButton}" 
                                 HorizontalContentAlignment="Left" 
                                 wpf:ShadowAssist.ShadowDepth="Depth2"
-                                wpf:ColorZoneAssist.Mode="Dark"/>
-                    <Button Content="Now Playing" 
-                                DockPanel.Dock="Top" 
-                                Margin="5,10,5,0" 
-                                Style="{StaticResource MaterialDesignRaisedAccentButton}" 
+                                wpf:ColorZoneAssist.Mode="Dark"
+                        Command="{Binding OnButtonMyPodcastCommand}"/>
+                <Button Content="Now Playing"
+                             DockPanel.Dock="Top" 
+                                Margin="5,10,5,0"   
+                                Style="{StaticResource MaterialDesignFlatButton}" 
                                 HorizontalContentAlignment="Left" 
                                 wpf:ShadowAssist.ShadowDepth="Depth2"
                                 wpf:ColorZoneAssist.Mode="Inverted"/>
-                </DockPanel>
-            </wpf:ColorZone>
-            <!--</Border>-->
+
+            </DockPanel>
             <DockPanel Grid.Column="1" Grid.RowSpan="2">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Frame NavigationUIVisibility="Hidden" Name="MainFrame" Content="{Binding MainFrame}" Padding="10" />
+                    <Frame NavigationUIVisibility="Hidden" Name="MainFrame" Content="{Binding MainFrame}" />
                 </ScrollViewer>
             </DockPanel>
             <DockPanel Grid.Row="1" Grid.ColumnSpan="2" LastChildFill="False" Height="Auto">

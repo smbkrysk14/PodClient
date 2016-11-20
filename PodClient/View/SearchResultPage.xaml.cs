@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PodClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,17 @@ namespace PodClient.View
     /// <summary>
     /// Search.xaml の相互作用ロジック
     /// </summary>
-    public partial class Search : Page
+    public partial class SearchResultPage : Page
     {
-        public Search()
+        public SearchResultPage()
         {
             InitializeComponent();
+        }
+
+        public SearchResultPage(NavigationService navi, NavigationService navi2, string keyWord)
+        {
+            InitializeComponent();
+            this.DataContext = new SearchResultViewModel(navi, navi2, keyWord);
         }
     }
 }
