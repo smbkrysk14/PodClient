@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace PodClient.Model
 {
+// mylist
     public static class MyList
     {
         public static List<Content.Result> myList = new List<Content.Result>();
